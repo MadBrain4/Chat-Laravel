@@ -38,17 +38,29 @@
             </div>
             <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                 @component('components.linkMenu')
-                    @slot('link', 'Home')
-                    @slot('name', 'home')
+                    @slot('link', 'Welcome')
+                    @slot('name', 'welcome')
                 @endcomponent
-                @component('components.linkMenu')
-                    @slot('link', 'Login')
-                    @slot('name', 'login')
-                @endcomponent
-                @component('components.linkMenu')
-                    @slot('link', 'Register')
-                    @slot('name', 'register')
-                @endcomponent
+                @guest
+                    @component('components.linkMenu')
+                        @slot('link', 'Login')
+                        @slot('name', 'login')
+                    @endcomponent
+                    @component('components.linkMenu')
+                        @slot('link', 'Register')
+                        @slot('name', 'register')
+                    @endcomponent
+                @endguest
+                @auth
+                    @component('components.linkMenu')
+                        @slot('link', 'Dashboard')
+                        @slot('name', 'home')
+                    @endcomponent
+                    @component('components.linkMenu')
+                        @slot('link', Auth::user()->name  )
+                        @slot('name', 'home' )
+                    @endcomponent
+                @endauth
             </ul>
         </div>
     </div>

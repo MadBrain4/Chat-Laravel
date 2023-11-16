@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/', 'home')->name('home');
+Route::view('/', 'welcome')->name('welcome');
 
 //Auth
 Route::view('/register', 'auth.register')->name('register');
@@ -23,4 +23,11 @@ Route::post('/register', [AuthController::class, 'register'])->name('register_ac
 Route::post('/login', [AuthController::class, 'login'])->name('login_action');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
+//Email
+Route::view('/email/verify', 'auth.verify-email')->middleware('auth')->name('verification.notice');
+Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verifyEmail'])->middleware(['auth', 'signed'])->name('verification.verify');
+Route::post('/email/verification-notification', [AuthController::class, 'sendVerificationEmail'])->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+//Chat
+Route::view('/dashboard', 'home')->middleware(['auth', 'verified'])->name('home');
 
